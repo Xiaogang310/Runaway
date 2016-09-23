@@ -1,9 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
+    signingConfigs {
+        release {
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "24.0.2"
-
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
@@ -22,3 +25,13 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/classes.jar')
 }
+
+task makeJar(type: Copy) {
+    delete 'build/libs/runaway.jar'
+    from('build/intermediates/bundles/debug/')
+    into('build/libs/')
+    include('classes.jar')
+    rename ('classes.jar', 'runaway.jar')
+}
+
+makeJar.dependsOn(build)

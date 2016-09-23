@@ -5,7 +5,5 @@ package com.cyou.runaway.Command;
  */
 abstract public class CommandBase
 {
-    abstract public void Regiter();
-
-    abstract public<T> T Execute(String... args);
+    abstract public<T> T execute(String args);
 }
