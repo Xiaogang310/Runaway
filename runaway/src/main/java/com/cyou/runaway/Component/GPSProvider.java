@@ -4,6 +4,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cyou.runaway.SDKContainer;
 
@@ -15,6 +16,7 @@ import org.json.JSONObject;
  */
 public class GPSProvider implements ComponentInterface
 {
+    protected String TAG = "GPSProvider";
     protected final String INVALID_PROVIDER = "INVALID_PROVIDER";
     protected LocationManager mLocationManager;
     protected LocationListener mLocationListener;
@@ -29,10 +31,11 @@ public class GPSProvider implements ComponentInterface
     public void start()
     {
         String provider = getLocationProvider();
+        Log.d(TAG, "start: " + provider);
         try
         {
-            if (INVALID_PROVIDER != provider)
-                mLocationManager.requestLocationUpdates(provider, 5, 5, mLocationListener);
+            if (!INVALID_PROVIDER.equals(provider))
+                mLocationManager.requestLocationUpdates(provider, 1000, 5, mLocationListener);
             else
                 providerInvalidCallback();
         }
@@ -68,6 +71,7 @@ public class GPSProvider implements ComponentInterface
             @Override
             public void onLocationChanged(Location location)
             {
+                Log.d(TAG, "onLocationChanged: true");
                 locationChangedCallback(location);
             }
 
@@ -109,7 +113,7 @@ public class GPSProvider implements ComponentInterface
             jsonObj.put("lat", location.getLatitude());
             jsonObj.put("lng", location.getLongitude());
 
-            SDKContainer.UnityCallback("GPSLocationCallabck", jsonObj.toString());
+            SDKContainer.unityCallback("GPSLocationCallabck", jsonObj.toString());
         }
         catch (JSONException e)
         {

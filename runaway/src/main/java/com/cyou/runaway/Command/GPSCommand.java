@@ -1,5 +1,7 @@
 package com.cyou.runaway.Command;
 
+import android.util.Log;
+
 import com.cyou.runaway.Component.GPSProvider;
 import com.cyou.runaway.SDKContainer;
 
@@ -11,6 +13,7 @@ import org.json.JSONObject;
  */
 public class GPSCommand extends CommandBase
 {
+    public String TAG = "GPSCommand";
     public GPSCommand()
     {
 
@@ -25,7 +28,7 @@ public class GPSCommand extends CommandBase
         try
         {
             JSONObject jsonObj = new JSONObject(args);
-            funcName = jsonObj.getString(SDKContainer.getInstance().commandFuncName);
+            funcName = jsonObj.getString(SDKContainer.COMMAND_FUNC);
         }
         catch (JSONException e)
         {
@@ -34,6 +37,7 @@ public class GPSCommand extends CommandBase
             return null;
         }
 
+        Log.d("", "execute: " + funcName);
         if (funcName.equals("start"))
             provider.start();
         else if (funcName.equals("stop"))

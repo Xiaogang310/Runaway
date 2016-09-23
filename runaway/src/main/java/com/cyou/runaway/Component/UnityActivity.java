@@ -3,6 +3,8 @@ package com.cyou.runaway.Component;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import com.cyou.runaway.SDKContainer;
 import com.unity3d.player.UnityPlayerActivity;
@@ -17,9 +19,21 @@ public class UnityActivity extends UnityPlayerActivity implements ComponentInter
     {
         super.onCreate(bundle);
 
-        initGPS();
-        
+        new SDKContainer(new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                if (SDKContainer.UNITY_CALL == msg.what)
+                {
+                    SDKContainer.handleMessage(msg);
+                }
+            }
+        });
+
         SDKContainer.getInstance().initialize();
+
+        initGPS();
     }
 
     protected void initGPS()
