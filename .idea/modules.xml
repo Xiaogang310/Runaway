@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Runaway.iml" filepath="$PROJECT_DIR$/Runaway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Runaway.iml" filepath="$PROJECT_DIR$/Runaway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/runaway/runaway.iml" filepath="$PROJECT_DIR$/runaway/runaway.iml" />
       <module fileurl="file://$PROJECT_DIR$/runaway/runaway.iml" filepath="$PROJECT_DIR$/runaway/runaway.iml" />
     </modules>
   </component>

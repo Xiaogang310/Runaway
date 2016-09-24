@@ -113,7 +113,7 @@ public class GPSProvider implements ComponentInterface
             jsonObj.put("lat", location.getLatitude());
             jsonObj.put("lng", location.getLongitude());
 
-            SDKContainer.unityCallback("GPSLocationCallabck", jsonObj.toString());
+            SDKContainer.unityCallback("GPSLocationCallabck", jsonObj);
         }
         catch (JSONException e)
         {
@@ -123,7 +123,7 @@ public class GPSProvider implements ComponentInterface
 
     protected void providerInvalidCallback()
     {
-
+        Log.d(TAG, "providerInvalidCallback: no provider");
     }
 
     protected void permissionCallback(String error)

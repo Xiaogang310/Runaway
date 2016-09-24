@@ -71,7 +71,7 @@ public class SDKContainer
         }
     }
 
-    public static void unityCallback(String func, String jsonParam)
+    public static void unityCallback(String func, JSONObject jsonParam)
     {
         try
         {
