@@ -1,11 +1,13 @@
-package com.cyou.runaway.Component;
+package com.cyou.runaway.Component.main;
 
-import android.content.Context;
-import android.location.LocationManager;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+
+import com.cyou.runaway.Component.ComponentInterface;
+import com.cyou.runaway.Component.Location.LocationService;
 import com.cyou.runaway.SDKContainer;
 import com.unity3d.player.UnityPlayerActivity;
 
@@ -38,9 +40,7 @@ public class UnityActivity extends UnityPlayerActivity implements ComponentInter
 
     protected void initGPS()
     {
-        LocationManager locMgr = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-        GPSProvider gpsProvider = new GPSProvider(locMgr);
-        SDKContainer.getInstance().registerComponent(gpsProvider.toString(), gpsProvider);
+        LocationService service = new LocationService(getApplicationContext());
+        SDKContainer.getInstance().registerComponent(LocationService.TAG, service);
     }
 }

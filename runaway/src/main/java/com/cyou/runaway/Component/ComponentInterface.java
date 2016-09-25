@@ -5,5 +5,5 @@ package com.cyou.runaway.Component;
  */
 public interface ComponentInterface
 {
-
+    
 }

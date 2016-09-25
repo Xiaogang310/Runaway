@@ -58,12 +58,6 @@ public class GPSProvider implements ComponentInterface
 
     }
 
-    @Override
-    public String toString()
-    {
-        return "gps";
-    }
-
     protected void init()
     {
         mLocationListener = new LocationListener()

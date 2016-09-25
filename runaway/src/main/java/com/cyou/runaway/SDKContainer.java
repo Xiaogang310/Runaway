@@ -6,7 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.cyou.runaway.Command.CommandBase;
-import com.cyou.runaway.Command.GPSCommand;
+import com.cyou.runaway.Command.LocationCommand;
 import com.cyou.runaway.Component.ComponentInterface;
 import com.unity3d.player.UnityPlayer;
 
@@ -167,7 +167,7 @@ public class SDKContainer
 
     protected void initCommands()
     {
-        registerCmd(new GPSCommand());
+        registerCmd(new LocationCommand());
     }
 
     protected void commandCallback()
