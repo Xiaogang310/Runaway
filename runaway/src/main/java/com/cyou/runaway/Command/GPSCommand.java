@@ -2,7 +2,7 @@ package com.cyou.runaway.Command;
 
 import android.util.Log;
 
-import com.cyou.runaway.Component.GPSProvider;
+import com.cyou.runaway.Component.Location.GPSProvider;
 import com.cyou.runaway.SDKContainer;
 
 import org.json.JSONException;
@@ -11,6 +11,8 @@ import org.json.JSONObject;
 /**
  * Created by Gang on 2016/9/22.
  */
+@Deprecated //use LocationCommand instead
+
 public class GPSCommand extends CommandBase
 {
     public String TAG = "GPSCommand";
@@ -20,7 +22,7 @@ public class GPSCommand extends CommandBase
     }
 
     @Override
-    public <T> T execute(String args)
+    public JSONObject execute(String args)
     {
         String funcName;
         GPSProvider provider = (GPSProvider) SDKContainer.getInstance().getComponent("gps");

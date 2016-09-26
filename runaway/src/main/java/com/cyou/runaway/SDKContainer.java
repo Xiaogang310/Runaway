@@ -1,5 +1,6 @@
 package com.cyou.runaway;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,7 +8,10 @@ import android.util.Log;
 
 import com.cyou.runaway.Command.CommandBase;
 import com.cyou.runaway.Command.LocationCommand;
+import com.cyou.runaway.Command.UtilCommand;
 import com.cyou.runaway.Component.ComponentInterface;
+import com.cyou.runaway.Component.Location.LocationService;
+import com.cyou.runaway.Component.Util.AndroidUtil;
 import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONException;
@@ -23,10 +27,10 @@ import java.util.Map;
  */
 public class SDKContainer
 {
-    String TAG = "UNITY_SDKContainer";
-    public static  final int UNITY_CALL = 10086;
-    public static  final String COMMAND_FUNC = "CommandFunc";
-
+    static protected String TAG = "SDKContainer";
+    public static final int UNITY_CALL = 10086;
+    public static final String COMMAND_FUNC = "CommandFunc";
+    public static final String CALLBACK_NAME = "Callback";
     protected static final String COMMAND = "Command";
     protected static final String JSON = "Json";
 
@@ -36,13 +40,13 @@ public class SDKContainer
 
     protected Map<String, ComponentInterface> mComponentMap;
 
+    protected Activity mMainActivity = null;
     protected Handler mMainLooperHandler = null;
 
-
-
-    public SDKContainer(Handler handler)
+    public SDKContainer(Activity mainActivity, Handler handler)
     {
         msInstance = this;
+        mMainActivity = mainActivity;
         mMainLooperHandler = handler;
 
         mCommandMap = Collections.synchronizedMap(new HashMap<String, CommandBase>());
@@ -58,6 +62,14 @@ public class SDKContainer
     {
         Log.d(msInstance.TAG, "jniCall: " + cmd + " " + jsonParam);
         msInstance.dispatch(cmd, jsonParam);
+    }
+
+    public static String jniGet(String cmd, String jsonParam)
+    {
+        Log.d(TAG, "jniGet: " + cmd + " " + jsonParam);
+        CommandBase command = msInstance.getCommand(cmd);
+        JSONObject json = command.execute(jsonParam);
+        return json.toString();
     }
 
     public static void handleMessage(Message msg)
@@ -80,7 +92,7 @@ public class SDKContainer
             jsonObj.put("json", jsonParam);
 
             Log.d(msInstance.TAG, "unityCallback: " + func + " " + jsonParam);
-            UnityPlayer.UnitySendMessage("Root", "OnAndroidCallback", jsonObj.toString());
+            UnityPlayer.UnitySendMessage("Root", "OnCallback", jsonObj.toString());
         }
         catch (JSONException e)
         {
@@ -90,8 +102,26 @@ public class SDKContainer
 
     public void initialize()
     {
-
+        initComponents();
         initCommands();
+    }
+
+    protected void initComponents()
+    {
+        initGPS();
+        initUtil();
+    }
+
+    protected void initGPS()
+    {
+        LocationService service = new LocationService(mMainActivity);
+        SDKContainer.getInstance().registerComponent(LocationService.TAG, service);
+    }
+
+    protected void initUtil()
+    {
+        AndroidUtil util = new AndroidUtil();
+        SDKContainer.getInstance().registerComponent(AndroidUtil.TAG, util);
     }
 
     protected void registerCommand(String name, CommandBase cmd)
@@ -111,6 +141,7 @@ public class SDKContainer
         }
         else
         {
+            Log.d(TAG, "getCommand: null " + name);
             return null;
         }
     }
@@ -168,6 +199,7 @@ public class SDKContainer
     protected void initCommands()
     {
         registerCmd(new LocationCommand());
+        registerCmd(new UtilCommand());
     }
 
     protected void commandCallback()

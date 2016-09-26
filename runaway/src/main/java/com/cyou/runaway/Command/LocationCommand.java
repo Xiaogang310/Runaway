@@ -14,26 +14,35 @@ import org.json.JSONObject;
 public class LocationCommand extends CommandBase
 {
     @Override
-    public <T> T execute(String args)
+    public JSONObject execute(String args)
     {
         Log.d(this.toString(), "execute: " + args);
         
-        String funcName;
+        String funcName = null, callback;
         LocationService service = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
 
         if (null == service)
+        {
             Log.d(this.toString(), "execute: null");
+            return null;
+        }
 
         try
         {
             JSONObject jsonObj = new JSONObject(args);
             funcName = jsonObj.getString(SDKContainer.COMMAND_FUNC);
+            callback = jsonObj.getString(SDKContainer.CALLBACK_NAME);
+
+            if (null != callback)
+                service.setCallback(callback);
         }
         catch (JSONException e)
         {
-            //TODO : process the exception
-            e.printStackTrace();
-            return null;
+            if (null == funcName)
+            {
+                e.printStackTrace();
+                return null;
+            }
         }
 
         if (funcName.equals("start"))

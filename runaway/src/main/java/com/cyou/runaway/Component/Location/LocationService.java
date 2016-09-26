@@ -8,6 +8,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.cyou.runaway.Component.CallbackInterface;
 import com.cyou.runaway.Component.ComponentInterface;
 import com.cyou.runaway.SDKContainer;
 
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 /**
  * Created by Xiao on 2016/9/24.
  */
-public class LocationService implements ComponentInterface
+public class LocationService extends CallbackInterface implements ComponentInterface
 {
     public static String TAG = "LocationService";
 
@@ -34,19 +35,29 @@ public class LocationService implements ComponentInterface
             Log.d(TAG, "onReceiveLocation: ");
             if (null != location && BDLocation.TypeServerError != location.getLocType())
             {
-//                try
-//                {
-//                    JSONObject jsonObj = new JSONObject();
-//                    jsonObj.put("lat", bdLocation.getLatitude());
-//                    jsonObj.put("lng", bdLocation.getLongitude());
-//
-//                    SDKContainer.unityCallback("GPSLocationCallabck", jsonObj);
-//                }
-//                catch (JSONException e)
-//                {
-//                    e.printStackTrace();
-//                    return;
-//                }
+                try
+                {
+                    JSONObject jsonObj = new JSONObject();
+
+                    jsonObj.put("locType", location.getLocType());
+                    jsonObj.put("lat", location.getLatitude());
+                    jsonObj.put("lng", location.getLongitude());
+                    jsonObj.put("country", location.getCountry());
+                    jsonObj.put("countryCode", location.getCountryCode());
+                    jsonObj.put("province", location.getProvince());
+                    jsonObj.put("city", location.getCity());
+                    jsonObj.put("cityCode", location.getCityCode());
+                    jsonObj.put("district", location.getDistrict());
+                    jsonObj.put("street", location.getStreet());
+                    jsonObj.put("poi", location.getPoiList());
+
+                    executeCallback(jsonObj);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                    return;
+                }
 
                 StringBuffer sb = new StringBuffer(256);
                 sb.append("time : ");
@@ -175,6 +186,12 @@ public class LocationService implements ComponentInterface
             if (null != mLocationClient && mLocationClient.isStarted())
                 mLocationClient.stop();
         }
+    }
+
+    @Override
+    public void executeCallback(JSONObject jsonObj)
+    {
+        SDKContainer.unityCallback(mCallback, jsonObj);
     }
 
     protected LocationClientOption getDefaultOption(){

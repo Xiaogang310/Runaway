@@ -1,4 +1,4 @@
-package com.cyou.runaway.Component;
+package com.cyou.runaway.Component.Location;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -6,6 +6,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.cyou.runaway.Component.ComponentInterface;
 import com.cyou.runaway.SDKContainer;
 
 import org.json.JSONException;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 /**
  * Created by Gang on 2016/9/22.
  */
+@Deprecated //use LocationService instead
 public class GPSProvider implements ComponentInterface
 {
     protected String TAG = "GPSProvider";
