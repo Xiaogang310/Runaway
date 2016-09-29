@@ -1,4 +1,4 @@
-package com.cyou.runaway;
+package com.cyou.runaway.inhouse;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,12 +6,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.cyou.runaway.Command.CommandBase;
-import com.cyou.runaway.Command.LocationCommand;
-import com.cyou.runaway.Command.UtilCommand;
-import com.cyou.runaway.Component.ComponentInterface;
-import com.cyou.runaway.Component.Location.LocationService;
-import com.cyou.runaway.Component.Util.AndroidUtil;
+import com.cyou.runaway.inhouse.Command.CommandBase;
+import com.cyou.runaway.inhouse.Command.LocationCommand;
+import com.cyou.runaway.inhouse.Command.UtilCommand;
+import com.cyou.runaway.inhouse.Component.ComponentInterface;
+import com.cyou.runaway.inhouse.Component.Location.LocationService;
+import com.cyou.runaway.inhouse.Component.Util.AndroidUtil;
 import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONException;
@@ -30,6 +30,7 @@ public class SDKContainer
     static protected String TAG = "SDKContainer";
     public static final int UNITY_CALL = 10086;
     public static final String COMMAND_FUNC = "CommandFunc";
+    public static final String GAME_OBJECT = "GameObject";
     public static final String CALLBACK_NAME = "Callback";
     protected static final String COMMAND = "Command";
     protected static final String JSON = "Json";
@@ -83,7 +84,7 @@ public class SDKContainer
         }
     }
 
-    public static void unityCallback(String func, JSONObject jsonParam)
+    public static void unityCallback(String gameObj, String func, JSONObject jsonParam)
     {
         try
         {
@@ -91,8 +92,8 @@ public class SDKContainer
             jsonObj.put("func", func);
             jsonObj.put("json", jsonParam);
 
-            Log.d(msInstance.TAG, "unityCallback: " + func + " " + jsonParam);
-            UnityPlayer.UnitySendMessage("Root", "OnCallback", jsonObj.toString());
+            Log.d(msInstance.TAG, "unityCallback: " + func + " " + gameObj + " " + jsonParam);
+            UnityPlayer.UnitySendMessage(gameObj, "OnCallback", jsonObj.toString());
         }
         catch (JSONException e)
         {

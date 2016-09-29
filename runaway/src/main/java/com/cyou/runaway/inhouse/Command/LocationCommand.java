@@ -1,9 +1,9 @@
-package com.cyou.runaway.Command;
+package com.cyou.runaway.inhouse.Command;
 
 import android.util.Log;
 
-import com.cyou.runaway.Component.Location.LocationService;
-import com.cyou.runaway.SDKContainer;
+import com.cyou.runaway.inhouse.Component.Location.LocationService;
+import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +18,7 @@ public class LocationCommand extends CommandBase
     {
         Log.d(this.toString(), "execute: " + args);
         
-        String funcName = null, callback;
+        String funcName = null, gameObj =null, callback = null;
         LocationService service = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
 
         if (null == service)
@@ -27,22 +27,34 @@ public class LocationCommand extends CommandBase
             return null;
         }
 
+        JSONObject jsonObj = null;
+
         try
         {
-            JSONObject jsonObj = new JSONObject(args);
+            jsonObj = new JSONObject(args);
             funcName = jsonObj.getString(SDKContainer.COMMAND_FUNC);
-            callback = jsonObj.getString(SDKContainer.CALLBACK_NAME);
-
-            if (null != callback)
-                service.setCallback(callback);
+            gameObj = jsonObj.getString(SDKContainer.GAME_OBJECT);
         }
         catch (JSONException e)
         {
-            if (null == funcName)
+            Log.d(toString(), "execute: no funcName or gameObjName");
+            return null;
+        }
+
+        if (jsonObj.has(SDKContainer.CALLBACK_NAME))
+        {
+            try
             {
-                e.printStackTrace();
+                callback = jsonObj.getString(SDKContainer.CALLBACK_NAME);
+            }
+            catch (JSONException e)
+            {
+                Log.d(toString(), "execute: get callback exception");
+
                 return null;
             }
+
+            service.setCallback(gameObj, callback);
         }
 
         if (funcName.equals("start"))

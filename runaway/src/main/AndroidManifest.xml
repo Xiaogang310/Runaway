@@ -1,4 +1,4 @@
-<manifest package="com.cyou.runaway"
+<manifest package="com.cyou.runaway.inhouse"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -7,7 +7,7 @@
         android:supportsRtl="true"
         >
         <activity
-            android:name="com.cyou.runaway.Component.main.UnityActivity"
+            android:name="com.cyou.runaway.inhouse.Activity.UnityActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape"

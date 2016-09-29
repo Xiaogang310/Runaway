@@ -1,11 +1,11 @@
-package com.cyou.runaway.Component.main;
+package com.cyou.runaway.inhouse.Activity;
 
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.cyou.runaway.SDKContainer;
+import com.cyou.runaway.inhouse.SDKContainer;
 import com.unity3d.player.UnityPlayerActivity;
 
 /**

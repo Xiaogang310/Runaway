@@ -1,4 +1,4 @@
-package com.cyou.runaway.Component;
+package com.cyou.runaway.inhouse.Component;
 
 import org.json.JSONObject;
 
@@ -7,12 +7,14 @@ import org.json.JSONObject;
  */
 abstract public class CallbackInterface
 {
+    protected String mGameObject;
     protected String mCallback;
 
     abstract public void executeCallback(JSONObject json);
 
-    public void setCallback(String callback)
+    public void setCallback(String gameObject, String callback)
     {
+        mGameObject = gameObject;
         mCallback = callback;
     }
 }

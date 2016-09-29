@@ -1,9 +1,9 @@
-package com.cyou.runaway.Command;
+package com.cyou.runaway.inhouse.Command;
 
 import android.util.Log;
 
-import com.cyou.runaway.Component.Util.AndroidUtil;
-import com.cyou.runaway.SDKContainer;
+import com.cyou.runaway.inhouse.Component.Util.AndroidUtil;
+import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.cyou.runaway.Component.Location;
+package com.cyou.runaway.inhouse.Component.Location;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,9 +8,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
-import com.cyou.runaway.Component.CallbackInterface;
-import com.cyou.runaway.Component.ComponentInterface;
-import com.cyou.runaway.SDKContainer;
+import com.cyou.runaway.inhouse.Component.CallbackInterface;
+import com.cyou.runaway.inhouse.Component.ComponentInterface;
+import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -191,7 +191,8 @@ public class LocationService extends CallbackInterface implements ComponentInter
     @Override
     public void executeCallback(JSONObject jsonObj)
     {
-        SDKContainer.unityCallback(mCallback, jsonObj);
+        Log.d(TAG, "Location executeCallback: " + mGameObject + " " + mCallback);
+        SDKContainer.unityCallback(mGameObject, mCallback, jsonObj);
     }
 
     protected LocationClientOption getDefaultOption(){

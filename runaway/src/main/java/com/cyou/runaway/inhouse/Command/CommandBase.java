@@ -1,4 +1,4 @@
-package com.cyou.runaway.Command;
+package com.cyou.runaway.inhouse.Command;
 
 import org.json.JSONObject;
 

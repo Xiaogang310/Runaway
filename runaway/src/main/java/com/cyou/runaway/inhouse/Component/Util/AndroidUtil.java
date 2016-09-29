@@ -1,8 +1,8 @@
-package com.cyou.runaway.Component.Util;
+package com.cyou.runaway.inhouse.Component.Util;
 
 import android.os.Build;
 
-import com.cyou.runaway.Component.ComponentInterface;
+import com.cyou.runaway.inhouse.Component.ComponentInterface;
 
 import org.json.JSONObject;
 
