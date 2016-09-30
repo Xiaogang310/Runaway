@@ -7,14 +7,14 @@ import org.json.JSONObject;
  */
 abstract public class CallbackInterface
 {
-    protected String mGameObject;
+    protected String mRoot;
     protected String mCallback;
 
     abstract public void executeCallback(JSONObject json);
 
-    public void setCallback(String gameObject, String callback)
+    public void setCallback(String root, String callback)
     {
-        mGameObject = gameObject;
+        mRoot = root;
         mCallback = callback;
     }
 }

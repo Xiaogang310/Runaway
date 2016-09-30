@@ -6,9 +6,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.cyou.runaway.inhouse.Command.ActivityCommand;
 import com.cyou.runaway.inhouse.Command.CommandBase;
 import com.cyou.runaway.inhouse.Command.LocationCommand;
 import com.cyou.runaway.inhouse.Command.UtilCommand;
+import com.cyou.runaway.inhouse.Component.Activity.ActivityController;
 import com.cyou.runaway.inhouse.Component.ComponentInterface;
 import com.cyou.runaway.inhouse.Component.Location.LocationService;
 import com.cyou.runaway.inhouse.Component.Util.AndroidUtil;
@@ -30,7 +33,7 @@ public class SDKContainer
     static protected String TAG = "SDKContainer";
     public static final int UNITY_CALL = 10086;
     public static final String COMMAND_FUNC = "CommandFunc";
-    public static final String GAME_OBJECT = "GameObject";
+    public static final String ROOT = "Root";
     public static final String CALLBACK_NAME = "Callback";
     protected static final String COMMAND = "Command";
     protected static final String JSON = "Json";
@@ -70,6 +73,10 @@ public class SDKContainer
         Log.d(TAG, "jniGet: " + cmd + " " + jsonParam);
         CommandBase command = msInstance.getCommand(cmd);
         JSONObject json = command.execute(jsonParam);
+
+        if (null == json)
+            return null;
+
         return json.toString();
     }
 
@@ -84,7 +91,7 @@ public class SDKContainer
         }
     }
 
-    public static void unityCallback(String gameObj, String func, JSONObject jsonParam)
+    public static void unityCallback(String root, String func, JSONObject jsonParam)
     {
         try
         {
@@ -92,8 +99,8 @@ public class SDKContainer
             jsonObj.put("func", func);
             jsonObj.put("json", jsonParam);
 
-            Log.d(msInstance.TAG, "unityCallback: " + func + " " + gameObj + " " + jsonParam);
-            UnityPlayer.UnitySendMessage(gameObj, "OnCallback", jsonObj.toString());
+            Log.d(msInstance.TAG, "unityCallback: " + func + " " + root + " " + jsonParam);
+            UnityPlayer.UnitySendMessage(root, "OnCallback", jsonObj.toString());
         }
         catch (JSONException e)
         {
@@ -103,14 +110,21 @@ public class SDKContainer
 
     public void initialize()
     {
+        initSDK();
         initComponents();
         initCommands();
+    }
+
+    protected void initSDK()
+    {
+        SDKInitializer.initialize(mMainActivity.getApplicationContext());
     }
 
     protected void initComponents()
     {
         initGPS();
         initUtil();
+        initActivityController();
     }
 
     protected void initGPS()
@@ -121,8 +135,14 @@ public class SDKContainer
 
     protected void initUtil()
     {
-        AndroidUtil util = new AndroidUtil();
+        AndroidUtil util = new AndroidUtil(mMainActivity);
         SDKContainer.getInstance().registerComponent(AndroidUtil.TAG, util);
+    }
+
+    protected void initActivityController()
+    {
+        ActivityController controller = new ActivityController(mMainActivity);
+        SDKContainer.getInstance().registerComponent(ActivityController.TAG, controller);
     }
 
     protected void registerCommand(String name, CommandBase cmd)
@@ -201,6 +221,7 @@ public class SDKContainer
     {
         registerCmd(new LocationCommand());
         registerCmd(new UtilCommand());
+        registerCmd(new ActivityCommand());
     }
 
     protected void commandCallback()

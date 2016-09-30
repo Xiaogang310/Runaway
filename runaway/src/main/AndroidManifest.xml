@@ -19,6 +19,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.cyou.runaway.inhouse.Activity.MapActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="bi5hW79HChUsCXhcqSSvZuHjIKzQ1lPi" />

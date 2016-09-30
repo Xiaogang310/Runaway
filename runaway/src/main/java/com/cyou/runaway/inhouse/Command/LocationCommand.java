@@ -18,7 +18,7 @@ public class LocationCommand extends CommandBase
     {
         Log.d(this.toString(), "execute: " + args);
         
-        String funcName = null, gameObj =null, callback = null;
+        String funcName = null, root =null, callback = null;
         LocationService service = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
 
         if (null == service)
@@ -33,7 +33,7 @@ public class LocationCommand extends CommandBase
         {
             jsonObj = new JSONObject(args);
             funcName = jsonObj.getString(SDKContainer.COMMAND_FUNC);
-            gameObj = jsonObj.getString(SDKContainer.GAME_OBJECT);
+            root = jsonObj.getString(SDKContainer.ROOT);
         }
         catch (JSONException e)
         {
@@ -54,7 +54,7 @@ public class LocationCommand extends CommandBase
                 return null;
             }
 
-            service.setCallback(gameObj, callback);
+            service.setCallback(root, callback);
         }
 
         if (funcName.equals("start"))

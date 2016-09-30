@@ -148,6 +148,11 @@ public class LocationService extends CallbackInterface implements ComponentInter
         mLocationClient.setLocOption(getDefaultOption());
     }
 
+    public void SetLocationOption(LocationClientOption option)
+    {
+
+    }
+
     public boolean registerListener(BDLocationListener listener)
     {
         boolean success = false;
@@ -167,32 +172,42 @@ public class LocationService extends CallbackInterface implements ComponentInter
             mLocationClient.unRegisterLocationListener(listener);
     }
 
-    public void start()
+    public void startWithListener(BDLocationListener listener)
     {
-        Log.d(TAG, "start: ");
         synchronized (mLockObject)
         {
-            registerListener(mLocationListener);
+            registerListener(listener);
+
             if (null != mLocationClient && !mLocationClient.isStarted())
                 mLocationClient.start();
         }
     }
 
-    public void stop()
+    public void stopWithListener(BDLocationListener listener)
     {
         synchronized (mLockObject)
         {
-            unregisterListener(mLocationListener);
+            unregisterListener(listener);
             if (null != mLocationClient && mLocationClient.isStarted())
                 mLocationClient.stop();
         }
     }
 
+    public void start()
+    {
+       startWithListener(mLocationListener);
+    }
+
+    public void stop()
+    {
+        stopWithListener(mLocationListener);
+    }
+
     @Override
     public void executeCallback(JSONObject jsonObj)
     {
-        Log.d(TAG, "Location executeCallback: " + mGameObject + " " + mCallback);
-        SDKContainer.unityCallback(mGameObject, mCallback, jsonObj);
+        Log.d(TAG, "Location executeCallback: " + mRoot + " " + mCallback);
+        SDKContainer.unityCallback(mRoot, mCallback, jsonObj);
     }
 
     protected LocationClientOption getDefaultOption(){

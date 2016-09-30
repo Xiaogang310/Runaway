@@ -8,6 +8,9 @@ import com.cyou.runaway.inhouse.SDKContainer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Created by Gang on 2016/9/26.
  */
@@ -32,23 +35,44 @@ public class UtilCommand extends CommandBase
 
             JSONObject result = new JSONObject();
 
-            if (func.equals("model"))
-            {
-                Log.d(toString(), "execute: util.model");
-                String model = util.model();
-                result.put("type", "ok");
-                result.put("result", model);
+            Method method = util.getClass().getMethod(func);
 
-                return  result;
+            try
+            {
+                String strRet = method.invoke(util).toString();
+                result.put("type", "ok");
+                result.put("result", strRet);
             }
+            catch (IllegalAccessException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+            catch (IllegalArgumentException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+            catch (InvocationTargetException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+
+            return result;
 
         }
         catch (JSONException e)
         {
             return null;
         }
-
-        return null;
+        catch (NoSuchMethodException e)
+        {
+            return null;
+        }
     }
 
     @Override
