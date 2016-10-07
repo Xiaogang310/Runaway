@@ -21,6 +21,7 @@
 
         <activity
             android:name="com.cyou.runaway.inhouse.Activity.MapActivity"
+            android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar">
         </activity>
 

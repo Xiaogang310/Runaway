@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:background="@android:color/darker_gray"
+              android:layout_height="wrap_content">
+
+    <Button
+        android:text="加好友"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        tools:ignore="HardcodedText"/>
+
+    <TextView
+        android:text="玩家"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        tools:ignore="HardcodedText"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+</LinearLayout>

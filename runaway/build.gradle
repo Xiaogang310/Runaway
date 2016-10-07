@@ -28,9 +28,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/classes.jar')
-    compile files('libs/BaiduLBS_Android.jar')
+    provided fileTree(include: ['*.jar'], dir: 'libs')
+    provided files('libs/classes.jar')
+    provided files('libs/BaiduLBS_Android.jar')
 }
 
 task makeJar(type: Copy) {

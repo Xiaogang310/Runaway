@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:weightSum="1"
+              android:gravity="center"
+              android:layout_width="wrap_content">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:tag="@string/marker_player_text"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:gravity="center"
+        android:text="@string/PlayerName"
+        android:textColor="@android:color/background_dark"
+        android:layout_width="wrap_content"
+        android:textSize="12sp"
+        tools:ignore="SmallSp"/>
+
+    <com.cyou.runaway.inhouse.Control.CircleImageView
+        android:tag="@string/marker_player_head"
+        android:src="@drawable/main"
+        app:border_width="0dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:src="@drawable/bt"
+        android:layout_marginTop="-1dp"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:contentDescription=""/>
+
+</LinearLayout>
