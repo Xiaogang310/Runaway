@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/textView"
         android:tag="@string/marker_player_text"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="0.05"
         android:gravity="center"
         android:text="@string/PlayerName"
@@ -34,6 +34,7 @@
         android:layout_marginTop="-1dp"
         android:layout_width="50dp"
         android:layout_height="20dp"
-        android:contentDescription=""/>
+        android:contentDescription=""
+        tools:ignore="ContentDescription"/>
 
 </LinearLayout>
