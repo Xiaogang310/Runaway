@@ -44,8 +44,8 @@ public class MapActivity extends Activity
 
     protected LocationService mLocationService;
 
-    protected double mLatOffset = 0.01;
-    protected double mLngOffset = 0.01;
+    protected double mLatOffset = 0.008;
+    protected double mLngOffset = 0.008;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -185,8 +185,6 @@ public class MapActivity extends Activity
 
             if (null == bdLocation || null == mMapView)
                 return;
-
-            Log.d(TAG, "onReceiveLocation: map location");
 
             MyLocationData locationData = new MyLocationData.Builder()
                     .accuracy(1000)

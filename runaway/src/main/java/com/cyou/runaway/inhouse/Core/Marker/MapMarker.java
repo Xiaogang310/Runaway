@@ -1,5 +1,8 @@
 package com.cyou.runaway.inhouse.Core.Marker;
 
+import android.graphics.Point;
+import android.util.Log;
+
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -16,13 +19,15 @@ abstract public class MapMarker
         mInfo = info;
         mManager = mgr;
         mBitmapUri = null;
+        mSize = new Point();
     }
 
     public void queryBitmap()
     {
         if (null == mBitmapUri)
         {
-            onBitmapLoaded(mManager.getBitmapDescriptor(mInfo));
+            onBitmapLoaded(mManager.getBitmapDescriptor(mInfo, mSize));
+            Log.d("MapMarker", "queryBitmap: size" + mSize.toString());
         }
     }
 
@@ -57,9 +62,14 @@ abstract public class MapMarker
         mLocation = location;
     }
 
+    public Point getSize()
+    {
+        return mSize;
+    }
     abstract protected void setupMarker();
 
     MarkerInfo mInfo;
+    Point mSize;
     MapMarkerManager mManager;
     Marker mMarker;
     MarkerOptions mOptions;

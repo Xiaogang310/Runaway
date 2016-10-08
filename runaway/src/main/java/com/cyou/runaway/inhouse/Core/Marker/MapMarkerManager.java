@@ -15,6 +15,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.cyou.runaway.inhouse.Activity.MapActivity;
 import com.cyou.runaway.inhouse.Control.MarkerView;
 import com.cyou.runaway.inhouse.Core.MapConfig;
+import com.cyou.runaway.inhouse.Core.Util.Helper;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.Map;
 
 public class MapMarkerManager
 {
+    String TAG = "MapMarkerManager";
     public int depthPlayer = 9;
     public int depthSchool = 10;
     public int depthMainPlayer = 11;
@@ -49,7 +51,6 @@ public class MapMarkerManager
     protected Map<String, MarkerView> mMarkerViewMap;
 
     protected InfoWindow mInfoWindow;
-    protected Point mOffset = new Point(10, 10);
 
     public MapMarkerManager(MapActivity mapActivity, BaiduMap map)
     {
@@ -115,7 +116,7 @@ public class MapMarkerManager
         mDefaultMainPlayerDescriptor = BitmapDescriptorFactory.fromAsset(mDefaultMainPlayerDescriptorPath);
     }
 
-    public BitmapDescriptor getBitmapDescriptor(MarkerInfo info)
+    public BitmapDescriptor getBitmapDescriptor(MarkerInfo info, Point size)
     {
         switch (info.markType)
         {
@@ -125,12 +126,14 @@ public class MapMarkerManager
             {
                 MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_MARKER_PLAYER);
                 view.setText("Player_Text", "我是玩家" + info.id);
+                size.set(view.getViewSize().x, view.getViewSize().y);
                 return view.getBitmapDescriptor();
             }
             case MT_School:
             {
                 MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_MARKER_SCHOOL);
                 view.setText("School_Text", "我是帮会" + info.id);
+                size.set(view.getViewSize().x, view.getViewSize().y);
                 return view.getBitmapDescriptor();
             }
 
@@ -171,22 +174,6 @@ public class MapMarkerManager
         }
     }
 
-    protected Point getPopupPoint(Point center, Point src, Point windowSize, Point offset)
-    {
-        boolean bX = (src.x - center.x) > 0;
-        boolean bY = (src.y - center.y) > 0;
-
-        Point tmp = new Point();
-        int px = bX ? -1 : 1;
-        int py = bY ? -1 : 1;
-
-        //原来的初始坐标是View的中下点
-        tmp.x = src.x + px * (offset.x + windowSize.x /2);
-        tmp.y = src.y + windowSize.y / 2 + py * (offset.y + windowSize.y / 2);
-
-        return tmp;
-    }
-
     protected void getScreenSize(Point size)
     {
         WindowManager wm = (WindowManager)mMapActivity.getSystemService(Context.WINDOW_SERVICE);
@@ -197,6 +184,20 @@ public class MapMarkerManager
         {
             size.set(wm.getDefaultDisplay().getWidth(), wm.getDefaultDisplay().getHeight());
         }
+    }
+
+    protected LatLng getPopupLocation(MapMarker srcMarker, MarkerView popupView)
+    {
+        LatLng srcLocation = srcMarker.getLocation();
+        Point srcPoint = mMap.getProjection().toScreenLocation(srcLocation);
+        Point screenSize = new Point();
+        getScreenSize(screenSize);
+        Point center = new Point(screenSize.x /2 , screenSize.y / 2);
+        Point popupSize = popupView.getViewSize();
+        Point markerSize = srcMarker.getSize();
+
+        Point point = Helper.CalculatePopupPosition(center, srcPoint, markerSize, popupSize);
+        return  mMap.getProjection().fromScreenLocation(point);
     }
 
     class MarkerClickListener implements BaiduMap.OnMarkerClickListener
@@ -215,18 +216,8 @@ public class MapMarkerManager
             else if (mPlayerTitle.equals(title))
             {
                 MapMarker mapMarker = mPlayerMarkerMap.get(marker);
-
-                LatLng location = mapMarker.getLocation();
-                Point point = mMap.getProjection().toScreenLocation(location);
-                Point screenSize = new Point();
-                getScreenSize(screenSize);
-                Point center = new Point(screenSize.x / 2, screenSize.y / 2);
-
                 MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_PLAYER_DIALOG);
-                Point viewSize = view.getViewSize();
-                Log.d("  ", "onMarkerClick: " + viewSize.toString());
-                Point popupPoint = getPopupPoint(center, point, viewSize, mOffset);
-                LatLng popupLocation = mMap.getProjection().fromScreenLocation(popupPoint);
+                LatLng popupLocation = getPopupLocation(mapMarker, view);
 
                 mInfoWindow = new InfoWindow(view.getView(), popupLocation, -47);
                 mMap.showInfoWindow(mInfoWindow);
@@ -237,17 +228,8 @@ public class MapMarkerManager
             {
                 MapMarker mapMarker = mSchoolMarkerMap.get(marker);
 
-                LatLng location = mapMarker.getLocation();
-                Point point = mMap.getProjection().toScreenLocation(location);
-                Point screenSize = new Point();
-                getScreenSize(screenSize);
-                Point center = new Point(screenSize.x / 2, screenSize.y / 2);
-
                 MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_SCHOOL_DIALOG);
-
-                Point viewSize = view.getViewSize();
-                Point popupPoint = getPopupPoint(center, point, viewSize, mOffset);
-                LatLng popupLocation = mMap.getProjection().fromScreenLocation(popupPoint);
+                LatLng popupLocation = getPopupLocation(mapMarker, view);
 
                 mInfoWindow = new InfoWindow(view.getView(), popupLocation, -47);
                 mMap.showInfoWindow(mInfoWindow);
