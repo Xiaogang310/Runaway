@@ -19,7 +19,7 @@
         android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:textSize="12sp"
-        tools:ignore="SmallSp"/>
+        tools:ignore="HardcodedText,SmallSp"/>
 
     <com.cyou.runaway.inhouse.Control.CircleImageView
         android:tag="Player_Head"

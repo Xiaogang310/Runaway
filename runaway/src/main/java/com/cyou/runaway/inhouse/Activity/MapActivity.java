@@ -50,6 +50,7 @@ public class MapActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
 
         fullScreen();
@@ -155,6 +156,7 @@ public class MapActivity extends Activity
     @Override
     protected void onPause()
     {
+        Log.d(TAG, "onPause: ");
         super.onPause();
 
         mMapView.onPause();
@@ -163,6 +165,7 @@ public class MapActivity extends Activity
     @Override
     protected void onResume()
     {
+        Log.d(TAG, "onResume: ");
         super.onResume();
         mLocationService.startWithListener(mLocationListener);
         mMapView.onResume();
@@ -171,6 +174,7 @@ public class MapActivity extends Activity
     @Override
     protected void onDestroy()
     {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         mLocationService.stopWithListener(mLocationListener);
         mMap.setMyLocationEnabled(false);

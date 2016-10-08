@@ -14,12 +14,15 @@ public class Helper
     //同时考虑marker和popup的大小
     public static Point CalculatePopupPosition(Point center, Point markerPosition, Point markerSize, Point popupSize)
     {
-        int px = (markerPosition.x - center.x) > 0 ? -1 : 1;
-        int py = (markerPosition.y - center.y) > 0 ? -1 : 1;
+        int markerCenterX = markerPosition.x;
+        int markerCenterY = markerPosition.y - markerSize.y / 2;
 
-        int xPos = markerPosition.x + px * (markerSize.x + popupSize.x ) / 2;
-        int yPos = markerPosition.y + popupSize.y /2 + py * (markerSize.y + popupSize.y) / 2;
+        int px = (markerCenterX - center.x) > 0 ? -1 : 1;
+        int py = (markerCenterY - center.y) > 0 ? -1 : 1;
 
-        return new Point(xPos, yPos);
+        int popupCenterX = markerCenterX + px * (markerSize.x + popupSize.x) / 2;
+        int popupCenterY = markerCenterY + py * (markerSize.y + popupSize.y) / 2;
+
+        return new Point(popupCenterX, popupCenterY + popupSize.y);
     }
 }
