@@ -6,9 +6,9 @@ import com.baidu.mapapi.map.MarkerOptions;
  * Created by Xiao on 2016/10/5.
  */
 
-public class MainPlayerMapMarker extends MapMarker
+public class MapMarkerMainPlayer extends MapMarker
 {
-    public MainPlayerMapMarker(MapMarkerManager mgr, MarkerInfo info)
+    public MapMarkerMainPlayer(MapMarkerManager mgr, MarkerInfo info)
     {
         super(mgr, info);
     }

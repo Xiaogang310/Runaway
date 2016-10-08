@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Runaway</string>
-    <string name="marker_player_text">Player_Text</string>
-    <string name="marker_player_head">Player_Head</string>
-    <string name="marker_school_text">School_Text</string>
-    <string name="PlayerName">哈哈</string>
+    <!--<string name="marker_player_text">Player_Text</string>-->
+    <!--<string name="marker_player_head">Player_Head</string>-->
+    <!--<string name="marker_school_text">School_Text</string>-->
+    <!--<string name="PlayerName">哈哈</string>-->
 </resources>

@@ -17,10 +17,11 @@ import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MapViewLayoutParams;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.cyou.runaway.inhouse.Component.Location.LocationService;
+import com.cyou.runaway.inhouse.Control.MarkerView;
+import com.cyou.runaway.inhouse.Core.MapConfig;
 import com.cyou.runaway.inhouse.Core.Marker.MapMarker;
 import com.cyou.runaway.inhouse.Core.Marker.MapMarkerManager;
 import com.cyou.runaway.inhouse.Core.Marker.MarkerInfo;
@@ -39,36 +40,22 @@ public class MapActivity extends Activity
     protected BDLocationListener mLocationListener;
     protected MapClickListener mMapClickListener;
     protected LayoutInflater mLayoutInflater;
-    protected MapViewLayoutParams.Builder mMapViewBuilder;
     protected MapMarkerManager mMarkerManager;
 
     protected LocationService mLocationService;
 
-    protected double mLatOffset = 0.004;
-    protected double mLngOffset = 0.004;
+    protected double mLatOffset = 0.01;
+    protected double mLngOffset = 0.01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        fullScreen();
 
-        mLayoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        mMapViewBuilder = new MapViewLayoutParams.Builder();
-        mLocationListener = new MapLocationListener();
-        mMapClickListener = new MapClickListener();
-
-        mMapView = new MapView(this, new BaiduMapOptions());
-        mMap = mMapView.getMap();
-        mMap.setOnMapClickListener(mMapClickListener);
-        mMap.setMyLocationEnabled(true);
-        mMarkerManager = new MapMarkerManager(this, mMap);
-
-        mLocationService = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
-        mLocationService.startWithListener(mLocationListener);
+        initVariables();
+        initMarkerView();
 
         initView(this);
         setContentView(mLayout);
@@ -79,15 +66,46 @@ public class MapActivity extends Activity
         return mLayoutInflater.inflate(id, null);
     }
 
-    protected void initSubview(LatLng mainPlayerLocation)
+    protected void fullScreen()
     {
-//        int id = getResources().getIdentifier("dialog_player", "layout", getPackageName());
-//        View subview = mLayoutInflater.inflate(id, null);
-//
-//        //mMap.getProjection().toScreenLocation(mainPlayerLocation);
-//
-//        MapViewLayoutParams params = mMapViewBuilder.point(mMap.getProjection().toScreenLocation(mainPlayerLocation)).width(300).height(300).build();
-//        mMapView.addView(subview, params);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    protected void initVariables()
+    {
+        mLayoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        mLocationListener = new MapLocationListener();
+        mMapClickListener = new MapClickListener();
+
+        mMapView = new MapView(this, new BaiduMapOptions());
+        mMap = mMapView.getMap();
+        mMap.setOnMapClickListener(mMapClickListener);
+        mMap.setMyLocationEnabled(true);
+        mMarkerManager = new MapMarkerManager(this, mMap);
+        mLocationService = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
+        mLocationService.startWithListener(mLocationListener);
+    }
+
+    protected void initMarkerView()
+    {
+        MarkerView view;
+        int marker_player_id = getResources().getIdentifier(MapConfig.LAYOUT_MARKER_PLAYER, MapConfig.LAYOUT, getPackageName());
+        view = new MarkerView(inflate(marker_player_id));
+        mMarkerManager.addMarkerView(MapConfig.LAYOUT_MARKER_PLAYER, view);
+
+        int marker_school_id = getResources().getIdentifier(MapConfig.LAYOUT_MARKER_SCHOOL, MapConfig.LAYOUT, getPackageName());
+        view = new MarkerView(inflate(marker_school_id));
+        mMarkerManager.addMarkerView(MapConfig.LAYOUT_MARKER_SCHOOL, view);
+
+        int dialog_player_id = getResources().getIdentifier(MapConfig.LAYOUT_PLAYER_DIALOG, MapConfig.LAYOUT, getPackageName());
+        view = new MarkerView(inflate(dialog_player_id));
+        mMarkerManager.addMarkerView(MapConfig.LAYOUT_PLAYER_DIALOG, view);
+
+        int dialog_school_id = getResources().getIdentifier(MapConfig.LAYOUT_SCHOOL_DIALOG, MapConfig.LAYOUT, getPackageName());
+        view = new MarkerView(inflate(dialog_school_id));
+        mMarkerManager.addMarkerView(MapConfig.LAYOUT_SCHOOL_DIALOG, view);
     }
 
     protected void initOverlay(LatLng mainPlayerLocation)
@@ -193,7 +211,6 @@ public class MapActivity extends Activity
         @Override
         public void onMapClick(LatLng latLng)
         {
-            Log.d(TAG, "onMapClick: " + latLng.toString());
             mMarkerManager.hideInfoWindow();
         }
 
@@ -204,4 +221,3 @@ public class MapActivity extends Activity
         }
     }
 }
-

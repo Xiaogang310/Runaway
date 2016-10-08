@@ -21,19 +21,34 @@ public class MarkerView
 {
     protected View mView;
     protected Map<String, View> mViewMap;
-    protected Point mSize;
+    protected Point mSize = null;
+
+    protected int mWidthMeasureSpec;
+    protected int mHeightMeasureSpec;
 
     public MarkerView(View view)
     {
         mView = view;
-        mSize = new Point(mView.getWidth(), mView.getHeight());
-
         mViewMap = Collections.synchronizedMap(new HashMap<String, View>());
+
+        mWidthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        mHeightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
     }
 
-    public View getAndroidView()
+    public View getView()
     {
         return mView;
+    }
+
+    public Point getViewSize()
+    {
+        if (null == mSize)
+        {
+            mView.measure(mWidthMeasureSpec, mHeightMeasureSpec);
+            mSize = new Point(mView.getMeasuredWidth(), mView.getMeasuredHeight());
+        }
+
+        return mSize;
     }
 
     public BitmapDescriptor getBitmapDescriptor()
@@ -43,7 +58,7 @@ public class MarkerView
 
     public void setText(String viewName, String text)
     {
-        TextView textView = (TextView)getView(viewName);
+        TextView textView = (TextView)getViewControl(viewName);
 
         if (null != textView)
             textView.setText(text);
@@ -51,18 +66,13 @@ public class MarkerView
 
     public void setBitmap(String imageViewName, Bitmap bitmap)
     {
-        ImageView imageView = (ImageView) getView(imageViewName);
+        ImageView imageView = (ImageView) getViewControl(imageViewName);
 
         if (null != imageView)
             imageView.setImageBitmap(bitmap);
     }
 
-    public Point getViewSize()
-    {
-        return mSize;
-    }
-
-    protected View getView(String name)
+    protected View getViewControl(String name)
     {
         if (mViewMap.containsKey(name))
             return mViewMap.get(name);

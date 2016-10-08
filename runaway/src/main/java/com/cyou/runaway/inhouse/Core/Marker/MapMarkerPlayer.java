@@ -6,9 +6,9 @@ import com.baidu.mapapi.map.MarkerOptions;
  * Created by Xiao on 2016/10/6.
  */
 
-public class SchoolMapMarker extends MapMarker
+public class MapMarkerPlayer extends MapMarker
 {
-    public SchoolMapMarker(MapMarkerManager mgr, MarkerInfo info)
+    public MapMarkerPlayer(MapMarkerManager mgr, MarkerInfo info)
     {
         super(mgr, info);
     }
@@ -16,7 +16,7 @@ public class SchoolMapMarker extends MapMarker
     @Override
     protected void setupMarker()
     {
-        mOptions = new MarkerOptions().position(mLocation).icon(mBitmapDescriptor).zIndex(mManager.depthSchool);
+        mOptions = new MarkerOptions().position(mLocation).icon(mBitmapDescriptor).zIndex(mManager.depthPlayer);
         mMarker = mManager.addMarker(this);
     }
 }

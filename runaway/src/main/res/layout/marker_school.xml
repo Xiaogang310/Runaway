@@ -8,7 +8,7 @@
 
     <TextView
         android:text="帮会"
-        android:tag="@string/marker_school_text"
+        android:tag="School_Text"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:layout_width="match_parent"

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -15,6 +14,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 import com.cyou.runaway.inhouse.Activity.MapActivity;
 import com.cyou.runaway.inhouse.Control.MarkerView;
+import com.cyou.runaway.inhouse.Core.MapConfig;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,12 +46,9 @@ public class MapMarkerManager
     protected MapActivity mMapActivity;
     protected MarkerClickListener mOnMarkerClickListener;
 
-    protected MarkerView mPlayerView;
-    protected MarkerView mSchoolView;
+    protected Map<String, MarkerView> mMarkerViewMap;
 
     protected InfoWindow mInfoWindow;
-    protected View mPlayerInfoView;
-    protected View mSchoolInfoView;
     protected Point mOffset = new Point(10, 10);
 
     public MapMarkerManager(MapActivity mapActivity, BaiduMap map)
@@ -80,6 +77,12 @@ public class MapMarkerManager
         return null;
     }
 
+    public void addMarkerView(String name, MarkerView view)
+    {
+        if (!mMarkerViewMap.containsKey(name))
+            mMarkerViewMap.put(name, view);
+    }
+
     public void hideInfoWindow()
     {
         mMap.hideInfoWindow();
@@ -87,17 +90,17 @@ public class MapMarkerManager
 
     protected MapMarker createMainPlayerMarker(MarkerInfo info)
     {
-        return  new MainPlayerMapMarker(this, info);
+        return  new MapMarkerMainPlayer(this, info);
     }
 
     protected MapMarker createPlayerMarker(MarkerInfo info)
     {
-        return new PlayerMapMarker(this, info);
+        return new MapMarkerPlayer(this, info);
     }
 
     protected MapMarker createSchoolMarker(MarkerInfo info)
     {
-        return new SchoolMapMarker(this, info);
+        return new MapMarkerSchool(this, info);
     }
 
     protected void init()
@@ -105,21 +108,11 @@ public class MapMarkerManager
         mOnMarkerClickListener = new MarkerClickListener();
         mPlayerMarkerMap = Collections.synchronizedMap(new HashMap<Marker, MapMarker>());
         mSchoolMarkerMap = Collections.synchronizedMap(new HashMap<Marker, MapMarker>());
+        mMarkerViewMap = Collections.synchronizedMap(new HashMap<String, MarkerView>());
+
         mMainPlayerMarker = null;
 
         mDefaultMainPlayerDescriptor = BitmapDescriptorFactory.fromAsset(mDefaultMainPlayerDescriptorPath);
-
-        int marker_player_id = mMapActivity.getResources().getIdentifier("marker_player", "layout", mMapActivity.getPackageName());
-        mPlayerView = new MarkerView(mMapActivity.inflate(marker_player_id));
-
-        int marker_school_id = mMapActivity.getResources().getIdentifier("marker_school", "layout", mMapActivity.getPackageName());
-        mSchoolView = new MarkerView(mMapActivity.inflate(marker_school_id));
-
-        int dialog_player_id = mMapActivity.getResources().getIdentifier("dialog_player", "layout", mMapActivity.getPackageName());
-        mPlayerInfoView = mMapActivity.inflate(dialog_player_id);
-
-        int dialog_school_id = mMapActivity.getResources().getIdentifier("dialog_school", "layout", mMapActivity.getPackageName());
-        mSchoolInfoView = mMapActivity.inflate(dialog_school_id);
     }
 
     public BitmapDescriptor getBitmapDescriptor(MarkerInfo info)
@@ -130,13 +123,15 @@ public class MapMarkerManager
                 return mDefaultMainPlayerDescriptor;
             case MT_Player:
             {
-                mPlayerView.setText("Player_Text", "我是玩家" + info.id);
-                return mPlayerView.getBitmapDescriptor();
+                MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_MARKER_PLAYER);
+                view.setText("Player_Text", "我是玩家" + info.id);
+                return view.getBitmapDescriptor();
             }
             case MT_School:
             {
-                mSchoolView.setText("School_Text", "我是帮会" + info.id);
-                return mSchoolView.getBitmapDescriptor();
+                MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_MARKER_SCHOOL);
+                view.setText("School_Text", "我是帮会" + info.id);
+                return view.getBitmapDescriptor();
             }
 
             default:break;
@@ -226,13 +221,14 @@ public class MapMarkerManager
                 Point screenSize = new Point();
                 getScreenSize(screenSize);
                 Point center = new Point(screenSize.x / 2, screenSize.y / 2);
-                Point viewSize = new Point(mPlayerInfoView.getWidth(), mPlayerInfoView.getHeight());
+
+                MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_PLAYER_DIALOG);
+                Point viewSize = view.getViewSize();
                 Log.d("  ", "onMarkerClick: " + viewSize.toString());
                 Point popupPoint = getPopupPoint(center, point, viewSize, mOffset);
                 LatLng popupLocation = mMap.getProjection().fromScreenLocation(popupPoint);
 
-                //TODO : FIX MEM LEAK?
-                mInfoWindow = new InfoWindow(mPlayerInfoView, popupLocation, -47);
+                mInfoWindow = new InfoWindow(view.getView(), popupLocation, -47);
                 mMap.showInfoWindow(mInfoWindow);
 
                 return true;
@@ -246,12 +242,14 @@ public class MapMarkerManager
                 Point screenSize = new Point();
                 getScreenSize(screenSize);
                 Point center = new Point(screenSize.x / 2, screenSize.y / 2);
-                Point viewSize = new Point(mSchoolInfoView.getWidth(), mSchoolInfoView.getHeight());
+
+                MarkerView view = mMarkerViewMap.get(MapConfig.LAYOUT_SCHOOL_DIALOG);
+
+                Point viewSize = view.getViewSize();
                 Point popupPoint = getPopupPoint(center, point, viewSize, mOffset);
                 LatLng popupLocation = mMap.getProjection().fromScreenLocation(popupPoint);
 
-                //TODO : FIX MEM LEAK?
-                mInfoWindow = new InfoWindow(mSchoolInfoView, popupLocation, -47);
+                mInfoWindow = new InfoWindow(view.getView(), popupLocation, -47);
                 mMap.showInfoWindow(mInfoWindow);
 
                 return true;

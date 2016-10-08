@@ -11,18 +11,18 @@
 
     <TextView
         android:id="@+id/textView"
-        android:tag="@string/marker_player_text"
+        android:tag="Player_Text"
         android:layout_height="0dp"
         android:layout_weight="0.05"
         android:gravity="center"
-        android:text="@string/PlayerName"
+        android:text="Player_Name"
         android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:textSize="12sp"
         tools:ignore="SmallSp"/>
 
     <com.cyou.runaway.inhouse.Control.CircleImageView
-        android:tag="@string/marker_player_head"
+        android:tag="Player_Head"
         android:src="@drawable/main"
         app:border_width="0dp"
         android:layout_width="32dp"
