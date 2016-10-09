@@ -21,7 +21,7 @@ public class ActivityController implements ComponentInterface
         mMainActivity = mainActivity;
     }
 
-    @MethodAnnotation
+    @MethodAnnotation(description = "open the map activity", type = MethodAnnotation.Method_Type.MT_POST)
     public void openMap()
     {
         Intent intent = new Intent(mMainActivity, MapActivity.class);

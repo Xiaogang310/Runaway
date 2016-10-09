@@ -81,6 +81,13 @@ public class SDKContainer
         return json.toString();
     }
 
+    public static void jniPost(String cmd, String jsonParam)
+    {
+        Log.d(TAG, "jniGet: " + cmd + " " + jsonParam);
+        CommandBase command = msInstance.getCommand(cmd);
+        command.execute(jsonParam);
+    }
+
     public static void handleMessage(Message msg)
     {
         if (UNITY_CALL == msg.what)

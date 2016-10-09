@@ -56,13 +56,13 @@ public class AndroidUtil extends BroadcastReceiver implements ComponentInterface
         return Build.MODEL;
     }
 
-    @MethodAnnotation
+    @MethodAnnotation(type = MethodAnnotation.Method_Type.MT_GET,description = "get the percentage of the capacity of battery energy")
     public String battery()
     {
         return Integer.toString(mEnergyPercent);
     }
 
-    @MethodAnnotation
+    @MethodAnnotation(type = MethodAnnotation.Method_Type.MT_GET,description = "get the uuid of the device")
     public String uuid()
     {
         return mUUIDGenerator.getUUID();

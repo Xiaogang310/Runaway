@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * Created by Gang on 2016/10/9.
+ * 文档Class注释，用于生成文档
  */
 
 @Target(ElementType.TYPE)
@@ -15,4 +16,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface CommandAnnotation
 {
+    
 }
