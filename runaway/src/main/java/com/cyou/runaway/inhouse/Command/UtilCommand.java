@@ -40,8 +40,16 @@ public class UtilCommand extends CommandBase
             try
             {
                 String strRet = method.invoke(util).toString();
-                result.put("type", "ok");
-                result.put("result", strRet);
+                if (null != strRet)
+                {
+                    result.put("type", "ok");
+                    result.put("result", strRet);
+                }
+                else
+                {
+                    result.put("type", "error");
+                    result.put("result", "null");
+                }
             }
             catch (IllegalAccessException e)
             {

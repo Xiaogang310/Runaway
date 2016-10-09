@@ -1,14 +1,11 @@
 package com.cyou.runaway.inhouse;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.WindowManager;
+
 
 import com.baidu.mapapi.SDKInitializer;
 import com.cyou.runaway.inhouse.Command.ActivityCommand;
@@ -19,7 +16,6 @@ import com.cyou.runaway.inhouse.Component.Activity.ActivityController;
 import com.cyou.runaway.inhouse.Component.ComponentInterface;
 import com.cyou.runaway.inhouse.Component.Location.LocationService;
 import com.cyou.runaway.inhouse.Component.Util.AndroidUtil;
-import com.cyou.runaway.inhouse.Core.Marker.MapMarkerManager;
 import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONException;
@@ -118,6 +114,11 @@ public class SDKContainer
         initSDK();
         initComponents();
         initCommands();
+    }
+
+    public Activity getMainActivity()
+    {
+        return mMainActivity;
     }
 
     protected void initSDK()

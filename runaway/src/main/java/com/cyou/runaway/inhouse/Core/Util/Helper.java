@@ -23,6 +23,7 @@ public class Helper
         int popupCenterX = markerCenterX + px * (markerSize.x + popupSize.x) / 2;
         int popupCenterY = markerCenterY + py * (markerSize.y + popupSize.y) / 2;
 
-        return new Point(popupCenterX, popupCenterY + popupSize.y);
+        //实际显示总是有偏差，加了1/4的popupSize.y做修正
+        return new Point(popupCenterX, popupCenterY + 3 * popupSize.y / 4);
     }
 }

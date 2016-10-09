@@ -4,16 +4,16 @@
               android:orientation="vertical"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              tools:ignore="UseCompoundDrawables">
+              tools:ignore="UseCompoundDrawables"
+    >
 
     <TextView
         android:text="帮会"
-        android:tag="School_Text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:textColor="@android:color/black"
         android:gravity="center"
+        android:textColor="@android:color/background_dark"
         tools:ignore="HardcodedText"/>
 
     <ImageView
@@ -21,5 +21,6 @@
         android:id="@+id/imageView"
         android:layout_height="128dp"
         android:layout_width="128dp"
-        tools:ignore="ContentDescription"/>
+        tools:ignore="ContentDescription"
+        />
 </LinearLayout>

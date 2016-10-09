@@ -9,6 +9,7 @@ import android.os.BatteryManager;
 import android.os.Build;
 
 import com.cyou.runaway.inhouse.Component.ComponentInterface;
+import com.cyou.runaway.inhouse.Core.UUID.UUIDGenerator;
 
 /**
  * Created by Gang on 2016/9/26.
@@ -20,9 +21,12 @@ public class AndroidUtil extends BroadcastReceiver implements ComponentInterface
     protected Activity mMainActivity = null;
     protected int mEnergyPercent = 0;
 
+    protected UUIDGenerator mUUIDGenerator;
+
     public AndroidUtil(Activity activity)
     {
         mMainActivity = activity;
+        mUUIDGenerator = new UUIDGenerator(mMainActivity);
 
         if (null != mMainActivity)
         {
@@ -49,5 +53,10 @@ public class AndroidUtil extends BroadcastReceiver implements ComponentInterface
     public String model()
     {
         return Build.MODEL;
+    }
+
+    public String uuid()
+    {
+        return mUUIDGenerator.getUUID();
     }
 }

@@ -14,27 +14,25 @@
         android:tag="Player_Text"
         android:layout_height="0dp"
         android:layout_weight="0.05"
-        android:gravity="center"
         android:text="Player_Name"
         android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
-        android:textSize="12sp"
+        android:textSize="8sp"
         tools:ignore="HardcodedText,SmallSp"/>
 
     <com.cyou.runaway.inhouse.Control.CircleImageView
         android:tag="Player_Head"
         android:src="@drawable/main"
-        app:border_width="0dp"
-        android:layout_width="32dp"
-        android:layout_height="32dp"/>
+        android:layout_height="40dp"
+        android:layout_width="40dp"/>
 
     <ImageView
         android:id="@+id/imageView2"
         android:src="@drawable/bt"
-        android:layout_marginTop="-1dp"
-        android:layout_width="50dp"
-        android:layout_height="20dp"
+        android:layout_width="23dp"
         android:contentDescription=""
-        tools:ignore="ContentDescription"/>
+        tools:ignore="ContentDescription"
+        android:layout_height="14dp"
+        />
 
 </LinearLayout>
