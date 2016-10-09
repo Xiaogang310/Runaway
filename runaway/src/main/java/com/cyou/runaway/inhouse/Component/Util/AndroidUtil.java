@@ -9,6 +9,7 @@ import android.os.BatteryManager;
 import android.os.Build;
 
 import com.cyou.runaway.inhouse.Component.ComponentInterface;
+import com.cyou.runaway.inhouse.Core.Annotation.Doc.MethodAnnotation;
 import com.cyou.runaway.inhouse.Core.UUID.UUIDGenerator;
 
 /**
@@ -55,6 +56,13 @@ public class AndroidUtil extends BroadcastReceiver implements ComponentInterface
         return Build.MODEL;
     }
 
+    @MethodAnnotation
+    public String battery()
+    {
+        return Integer.toString(mEnergyPercent);
+    }
+
+    @MethodAnnotation
     public String uuid()
     {
         return mUUIDGenerator.getUUID();

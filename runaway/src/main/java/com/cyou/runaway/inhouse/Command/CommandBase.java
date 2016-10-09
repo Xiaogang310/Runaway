@@ -8,4 +8,5 @@ import org.json.JSONObject;
 abstract public class CommandBase
 {
     abstract public JSONObject execute(String args);
+    abstract public String commandName();
 }

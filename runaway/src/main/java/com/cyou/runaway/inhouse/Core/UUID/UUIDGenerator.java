@@ -3,12 +3,13 @@ package com.cyou.runaway.inhouse.Core.UUID;
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 
 
 /**
  * Created by Gang on 2016/10/9.
  *
- * 获取唯一标示，目前采用优先适配ANDROID_ID，如果无效随机生成UUID的策略
+ * 获取唯一标示，目前采用优先适配ANDROID_ID，再适配SN，如果都无效随机生成UUID的策略
  * 1. 不使用 WIFI,Bluetooth的地址的原因是如果WIFI和Bluetooth关闭那么将返回null
  * 一台手机开关WIFI的状态会生产不同的UUID
  * 2. 不使用DeviceID的原因是：(摘自Android Developers blog)
@@ -21,6 +22,7 @@ import android.provider.Settings;
 
 public class UUIDGenerator
 {
+    String TAG = "UUIDGenerator";
     protected String mUUID;
     protected Context mContext;
     private String mMaigc = "9774d56d682e549c";
@@ -47,6 +49,7 @@ public class UUIDGenerator
 
             if (!mMaigc.equals(uuid))
             {
+                Log.d(TAG, "generateAndroidID: ANDROID_ID");
                 mUUID = uuid;
             }
         }
@@ -61,7 +64,11 @@ public class UUIDGenerator
             String sn = Build.SERIAL;
 
             if (null != sn)
+            {
                 mUUID = sn;
+                Log.d(TAG, "generateSN: SN");
+            }
+
         }
 
         return this;
@@ -76,6 +83,7 @@ public class UUIDGenerator
             try
             {
                 uuid = InstallationUUID.getUUID(mContext);
+                Log.d(TAG, "generateInstallation: Installatiion");
             }
             catch (Exception e)
             {

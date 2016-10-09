@@ -220,7 +220,7 @@ public class SDKContainer
 
     protected void registerCmd(CommandBase cmd)
     {
-        registerCommand(cmd.toString(), cmd);
+        registerCommand(cmd.commandName(), cmd);
     }
 
     protected void initCommands()

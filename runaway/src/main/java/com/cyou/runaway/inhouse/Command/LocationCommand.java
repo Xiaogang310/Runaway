@@ -3,6 +3,8 @@ package com.cyou.runaway.inhouse.Command;
 import android.util.Log;
 
 import com.cyou.runaway.inhouse.Component.Location.LocationService;
+import com.cyou.runaway.inhouse.Core.Annotation.Doc.CommandAnnotation;
+import com.cyou.runaway.inhouse.Core.Annotation.Doc.FieldAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -11,17 +13,22 @@ import org.json.JSONObject;
 /**
  * Created by Xiao on 2016/9/25.
  */
+@CommandAnnotation
 public class LocationCommand extends CommandBase
 {
+    @FieldAnnotation
+    LocationService mLocationService = null;
+
     @Override
     public JSONObject execute(String args)
     {
         Log.d(this.toString(), "execute: " + args);
         
         String funcName = null, root =null, callback = null;
-        LocationService service = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
+        if (null == mLocationService)
+            mLocationService = (LocationService) SDKContainer.getInstance().getComponent(LocationService.TAG);
 
-        if (null == service)
+        if (null == mLocationService)
         {
             Log.d(this.toString(), "execute: null");
             return null;
@@ -54,19 +61,19 @@ public class LocationCommand extends CommandBase
                 return null;
             }
 
-            service.setCallback(root, callback);
+            mLocationService.setCallback(root, callback);
         }
 
         if (funcName.equals("start"))
-            service.start();
+            mLocationService.start();
         else if (funcName.equals("stop"))
-            service.stop();
+            mLocationService.stop();
 
         return null;
     }
 
     @Override
-    public String toString()
+    public String commandName()
     {
         return "locationCmd";
     }

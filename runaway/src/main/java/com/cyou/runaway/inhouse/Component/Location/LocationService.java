@@ -10,6 +10,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.cyou.runaway.inhouse.Component.CallbackInterface;
 import com.cyou.runaway.inhouse.Component.ComponentInterface;
+import com.cyou.runaway.inhouse.Core.Annotation.Doc.MethodAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -193,11 +194,13 @@ public class LocationService extends CallbackInterface implements ComponentInter
         }
     }
 
+    @MethodAnnotation
     public void start()
     {
        startWithListener(mLocationListener);
     }
 
+    @MethodAnnotation
     public void stop()
     {
         stopWithListener(mLocationListener);

@@ -3,6 +3,8 @@ package com.cyou.runaway.inhouse.Command;
 import android.util.Log;
 
 import com.cyou.runaway.inhouse.Component.Util.AndroidUtil;
+import com.cyou.runaway.inhouse.Core.Annotation.Doc.CommandAnnotation;
+import com.cyou.runaway.inhouse.Core.Annotation.Doc.FieldAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -14,17 +16,22 @@ import java.lang.reflect.Method;
 /**
  * Created by Gang on 2016/9/26.
  */
+@CommandAnnotation
 public class UtilCommand extends CommandBase
 {
+    @FieldAnnotation
+    AndroidUtil mAndroidUtil = null;
+
     @Override
     public JSONObject execute(String args)
     {
         Log.d(toString(), "execute: " + args);
-        AndroidUtil util = (AndroidUtil) SDKContainer.getInstance().getComponent(AndroidUtil.TAG);
+        if (null == mAndroidUtil)
+            mAndroidUtil = (AndroidUtil) SDKContainer.getInstance().getComponent(AndroidUtil.TAG);
 
-        if (null == util)
+        if (null == mAndroidUtil)
         {
-            Log.d(toString(), "execute: androidUtil is " + util);
+            Log.d(toString(), "execute: androidUtil is " + mAndroidUtil);
             return null;
         }
 
@@ -35,11 +42,11 @@ public class UtilCommand extends CommandBase
 
             JSONObject result = new JSONObject();
 
-            Method method = util.getClass().getMethod(func);
+            Method method = mAndroidUtil.getClass().getMethod(func);
 
             try
             {
-                String strRet = method.invoke(util).toString();
+                String strRet = method.invoke(mAndroidUtil).toString();
                 if (null != strRet)
                 {
                     result.put("type", "ok");
@@ -53,19 +60,16 @@ public class UtilCommand extends CommandBase
             }
             catch (IllegalAccessException e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
             catch (IllegalArgumentException e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
             catch (InvocationTargetException e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
@@ -84,7 +88,7 @@ public class UtilCommand extends CommandBase
     }
 
     @Override
-    public String toString()
+    public String commandName()
     {
         return "utilCmd";
     }
