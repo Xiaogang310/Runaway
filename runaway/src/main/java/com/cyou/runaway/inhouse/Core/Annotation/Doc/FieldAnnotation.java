@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 
 @Target(ElementType.FIELD)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 @Documented
 public @interface FieldAnnotation
 {
