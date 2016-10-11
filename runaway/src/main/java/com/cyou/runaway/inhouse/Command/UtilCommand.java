@@ -2,9 +2,9 @@ package com.cyou.runaway.inhouse.Command;
 
 import android.util.Log;
 
+import com.cyou.runaway.Processor.annotation.CommandAnnotation;
+import com.cyou.runaway.Processor.annotation.FieldAnnotation;
 import com.cyou.runaway.inhouse.Component.Util.AndroidUtil;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.CommandAnnotation;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.FieldAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -16,9 +16,11 @@ import java.lang.reflect.Method;
 /**
  * Created by Gang on 2016/9/26.
  */
-@CommandAnnotation
+@CommandAnnotation(command = UtilCommand.TAG)
 public class UtilCommand extends CommandBase
 {
+    public static final String TAG = "utilCmd";
+
     @FieldAnnotation
     AndroidUtil mAndroidUtil = null;
 
@@ -85,11 +87,5 @@ public class UtilCommand extends CommandBase
         {
             return null;
         }
-    }
-
-    @Override
-    public String commandName()
-    {
-        return "utilCmd";
     }
 }

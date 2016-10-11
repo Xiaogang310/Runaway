@@ -8,9 +8,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.cyou.runaway.Processor.annotation.MethodAnnotation;
 import com.cyou.runaway.inhouse.Component.CallbackInterface;
 import com.cyou.runaway.inhouse.Component.ComponentInterface;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.MethodAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -194,13 +194,15 @@ public class LocationService extends CallbackInterface implements ComponentInter
         }
     }
 
-    @MethodAnnotation(description = "start Location Service", type = MethodAnnotation.Method_Type.MT_CALL)
+
+    @MethodAnnotation(description = "start the location service", type = MethodAnnotation.Method_Type.MT_CALL)
     public void start()
     {
        startWithListener(mLocationListener);
     }
 
-    @MethodAnnotation(description = "stop Location Service", type = MethodAnnotation.Method_Type.MT_CALL)
+
+    @MethodAnnotation(description = "stop the location service", type = MethodAnnotation.Method_Type.MT_POST)
     public void stop()
     {
         stopWithListener(mLocationListener);

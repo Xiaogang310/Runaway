@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-
 import com.baidu.mapapi.SDKInitializer;
 import com.cyou.runaway.inhouse.Command.ActivityCommand;
 import com.cyou.runaway.inhouse.Command.CommandBase;
@@ -225,16 +224,16 @@ public class SDKContainer
         }
     }
 
-    protected void registerCmd(CommandBase cmd)
+    protected void registerCmd(String cmdName, CommandBase cmd)
     {
-        registerCommand(cmd.commandName(), cmd);
+        registerCommand(cmdName, cmd);
     }
 
     protected void initCommands()
     {
-        registerCmd(new LocationCommand());
-        registerCmd(new UtilCommand());
-        registerCmd(new ActivityCommand());
+        registerCmd(LocationCommand.TAG, new LocationCommand());
+        registerCmd(UtilCommand.TAG, new UtilCommand());
+        registerCmd(ActivityCommand.TAG, new ActivityCommand());
     }
 
     protected void commandCallback()

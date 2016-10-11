@@ -22,7 +22,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['libs', 'externalLib']
         }
     }
 }
@@ -31,6 +31,7 @@ dependencies {
     provided fileTree(include: ['*.jar'], dir: 'libs')
     provided files('libs/classes.jar')
     provided files('libs/BaiduLBS_Android.jar')
+    provided files('externalLib/RunawayProcessor.jar')
 }
 
 task makeJar(type: Copy) {

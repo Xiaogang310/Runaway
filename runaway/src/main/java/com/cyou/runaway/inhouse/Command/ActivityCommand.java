@@ -1,8 +1,8 @@
 package com.cyou.runaway.inhouse.Command;
 
+import com.cyou.runaway.Processor.annotation.CommandAnnotation;
+import com.cyou.runaway.Processor.annotation.FieldAnnotation;
 import com.cyou.runaway.inhouse.Component.Activity.ActivityController;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.CommandAnnotation;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.FieldAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -14,10 +14,12 @@ import java.lang.reflect.Method;
 /**
  * Created by Gang on 2016/9/30.
  */
-@CommandAnnotation
+@CommandAnnotation(command = ActivityCommand.TAG)
 public class ActivityCommand extends CommandBase
 {
-    @FieldAnnotation
+    public static final String TAG = "activityCmd";
+
+    @FieldAnnotation()
     ActivityController mActivityController = null;
 
     @Override
@@ -65,11 +67,5 @@ public class ActivityCommand extends CommandBase
         {
             return null;
         }
-    }
-
-    @Override
-    public String commandName()
-    {
-        return "activityCmd";
     }
 }

@@ -2,9 +2,9 @@ package com.cyou.runaway.inhouse.Command;
 
 import android.util.Log;
 
+import com.cyou.runaway.Processor.annotation.CommandAnnotation;
+import com.cyou.runaway.Processor.annotation.FieldAnnotation;
 import com.cyou.runaway.inhouse.Component.Location.LocationService;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.CommandAnnotation;
-import com.cyou.runaway.inhouse.Core.Annotation.Doc.FieldAnnotation;
 import com.cyou.runaway.inhouse.SDKContainer;
 
 import org.json.JSONException;
@@ -13,9 +13,11 @@ import org.json.JSONObject;
 /**
  * Created by Xiao on 2016/9/25.
  */
-@CommandAnnotation
+@CommandAnnotation(command = LocationCommand.TAG)
 public class LocationCommand extends CommandBase
 {
+    public static final String TAG = "locationCmd";
+
     @FieldAnnotation
     LocationService mLocationService = null;
 
@@ -70,11 +72,5 @@ public class LocationCommand extends CommandBase
             mLocationService.stop();
 
         return null;
-    }
-
-    @Override
-    public String commandName()
-    {
-        return "locationCmd";
     }
 }
