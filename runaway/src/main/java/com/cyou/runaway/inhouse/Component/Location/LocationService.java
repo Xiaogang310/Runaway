@@ -195,14 +195,14 @@ public class LocationService extends CallbackInterface implements ComponentInter
     }
 
 
-    @MethodAnnotation(description = "start the location service", type = MethodAnnotation.Method_Type.MT_CALL)
+    @MethodAnnotation(description = "start the location service", type = MethodAnnotation.Method_Type.Call)
     public void start()
     {
        startWithListener(mLocationListener);
     }
 
 
-    @MethodAnnotation(description = "stop the location service", type = MethodAnnotation.Method_Type.MT_POST)
+    @MethodAnnotation(description = "stop the location service", type = MethodAnnotation.Method_Type.Post)
     public void stop()
     {
         stopWithListener(mLocationListener);
