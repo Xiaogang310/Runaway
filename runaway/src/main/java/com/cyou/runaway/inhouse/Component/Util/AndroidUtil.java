@@ -58,7 +58,7 @@ public class AndroidUtil extends BroadcastReceiver implements ComponentInterface
 
     @MethodAnnotation(description = "get the percentage of battery energy",
             type = MethodAnnotation.Method_Type.Get,
-            result = "the percentage of batteray energy, 0 - 100")
+            result = "the percentage of battery energy, 0 - 100")
     public String battery()
     {
         return Integer.toString(mEnergyPercent);
